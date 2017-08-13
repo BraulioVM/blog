@@ -1,10 +1,16 @@
 ---
 title: Enforce lists to be monotonic at compile time
 ---
+I've been learning lately about type-level programming in haskell
+and now that I feel that some ideas have *clicked* it's time to
+write down some potential applications. You're probably not going
+to need this in particular, but I wanted to show up to what extent
+the type-system can enforce properties of your program that you
+wouldn't even dream of in other languages.
 
 In this post I'll show you briefly how we can enforce
 monotonic behaviour in fixed constant
-lists defined at compile time. I'll use 5 common type-level
+lists defined at compile time. As I said, I'll use some common type-level
 programming tricks for achieving this goal.
 
 ## Type-level nats
@@ -24,7 +30,8 @@ two :: Nat
 two = Succ One
 ```
 
-Using the `DataKinds` language extension we can promote those
+Using the [`DataKinds`](https://downloads.haskell.org/~ghc/7.8.4/docs/html/users_guide/promotion.html)
+language extension we can promote those
 values to types, and the `Nat` type to a kind. That would allow
 us to have types like these:
 
@@ -43,24 +50,25 @@ sum :: Nat -> Nat -> Nat
 sum Z a = a
 sum (Succ a) b = Succ (sum a b)
 
-lessThan :: Nat -> Nat -> Bool
-lessThan Z a = True
-lessThan a Z = False
-lessThan (Succ n) (Succ m) = lessThan n m
+lessThanOrEqualTo :: Nat -> Nat -> Bool
+lessThanOrEqualTo Z a = True
+lessThanOrEqualTo a Z = False
+lessThanOrEqualTo (Succ n) (Succ m) = lessThanOrEqualTo n m
 ```
 
 we can make functions that operate on the type level using
-the `TypeFamilies` language extension:
+the [`TypeFamilies`](https://kseo.github.io/posts/2017-01-16-type-level-functions-using-closed-type-families.html)
+language extension:
 
 ``` haskell
 type family Sum (a :: Nat) (b :: Nat) :: Nat where
     Sum Z a = a
     Sum (Succ a) b = Succ (Sum a b)
 
-type familiy LessThan (a :: Nat) (b :: Nat) :: Bool where
-  LessThan Z b = True
-  LessThan a Z = False
-  LessThan (Succ n) (Succ m) = LessThan n m
+type familiy LessThanOrEqualTo (a :: Nat) (b :: Nat) :: Bool where
+  LessThanOrEqualTo Z b = True
+  LessThanOrEqualTo a Z = False
+  LessThanOrEqualTo (Succ n) (Succ m) = LessThanOrEqualTo n m
 ```
 
 Note that in this example `Bool` is the kind `Bool` (thanks to
@@ -78,7 +86,8 @@ fakeProof :: Proxy True
 fakeProof = (Proxy :: Proxy (LessThan Two One)) -- compile time error
 ```
 
-What's more, using the `TypeOperators` language extension we can
+What's more, using the [`TypeOperators`](https://ocharles.org.uk/blog/posts/2014-12-08-type-operators.html)
+language extension we can
 change the above type families to:
 
 ``` haskell
@@ -119,7 +128,7 @@ hurt you), `ScopedTypeVariables` makes GHC understand that the
 variable we are refering to later with `Proxy a`. `UndecidableInstances`
 could make type checking your code undecidable, but we are safe for now.
 
-## Increasing type-family
+## `Increasing` type-family
 Taking advantage of the fact that the list type constructor is promoted
 by `DataKinds` to a kind constructor we can define the following
 type family:
@@ -169,9 +178,12 @@ toIncreasing (Proxy :: Proxy '[Two, Zero, One]) -- compile-time error
    extendable is this technique?
 
 3. Nobody wants to define lists of numbers like
-   `[ThreehundredThirtyTwo, Fifteen]` and that's ok. Type-literals
-   would allow us to provide a more ergonomic API.
+   `[ThreehundredThirtyTwo, Fifteen]` and that's ok. [Type-literals](https://downloads.haskell.org/~ghc/7.10.1/docs/html/users_guide/type-level-literals.html)
+   would allow us to provide an ergonomic API.
 
 4. Some potentially useful type-level combinators arise from this
    code. There probably are libraries of type-level combinators out
    there. Have to take a look.
+
+5. [This post](http://ponies.io/posts/2014-07-30-typelits.html) talks
+   about some of the things I talk in here too and was quite didactic.
