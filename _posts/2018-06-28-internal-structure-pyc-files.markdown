@@ -112,4 +112,4 @@ Python's 2 marshal format is explained in [this post](http://demoseen.com/blog/2
 It has mostly stayed the same for python3. Code objects marshalling
 will be further explored in a future post.
 
-_Edit: the next post is already here: [Targeting The Python Virtual Machine II: CPython Marshalling Format](http://blog.braulio.me/2018/07/02/python-marshalling.html)._
+_Edit: the next post is already here: [Targeting The Python Virtual Machine II: CPython Marshalling Format](http://blog.braulio.me/2018/07/04/python-marshalling.html)._
