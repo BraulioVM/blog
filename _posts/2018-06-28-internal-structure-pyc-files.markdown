@@ -1,5 +1,5 @@
 ---
-title: Internal Structure of .pyc Files
+title: "Targeting The Python Virtual Machine I: The Internal Structure of .pyc Files"
 layout: post
 ---
 When the cpython python interpreter imports a module, it has to
@@ -111,3 +111,5 @@ as was the case with `.pyc` structure, due to the fact that it is a
 Python's 2 marshal format is explained in [this post](http://demoseen.com/blog/2010-02-20_Python_Marshal_Format.html).
 It has mostly stayed the same for python3. Code objects marshalling
 will be further explored in a future post.
+
+_Edit: the next post is already here: [Targeting The Python Virtual Machine II: CPython Marshalling Format](http://blog.braulio.me/2018/07/02/python-marshalling.html)._
