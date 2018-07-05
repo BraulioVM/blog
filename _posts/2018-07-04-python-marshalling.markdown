@@ -19,7 +19,7 @@ valid `.pyc` files.
 
 As I said in the previous post, the python version we are targeting
 here is python3.5. The marshal format is an internal part of the
-interpreter, and thus is subject to changes from version to version.
+interpreter and, thus, is subject to changes from version to version.
 That's why it does not have any official documentation.
 A summary of python2's `marshal` format can be found
 [here](http://demoseen.com/blog/2010-02-20_Python_Marshal_Format.html).
