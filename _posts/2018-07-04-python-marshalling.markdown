@@ -23,7 +23,7 @@ interpreter and, thus, is subject to changes from version to version.
 That's why it does not have any official documentation.
 A summary of python2's `marshal` format can be found
 [here](http://demoseen.com/blog/2010-02-20_Python_Marshal_Format.html).
-For figuring all this stuff out, I had to read the source
+To figure all this out, I had to read the source
 of the interpreter, especially
 [`marshal.c`](https://github.com/python/cpython/blob/3.5/Python/marshal.c).
 
@@ -337,5 +337,5 @@ The final steps for executing the `.pyc` file would be:
 You will see that the number 11 gets printed, meaning that our
 `.pyc` file got executed. Automatically generating working bytecode
 was one of the goals of my project. In the next post of this
-series we will see how to leverage the power of haskell to construct
+series, we will see how to leverage the power of haskell to construct
 code objects in a convenient and type-safe way.
