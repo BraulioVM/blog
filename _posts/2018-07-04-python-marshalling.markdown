@@ -6,30 +6,30 @@ title: "Targeting The Python Virtual Machine II: CPython Marshalling Format"
 _Targeting The Python Virtual Machine is a series of posts I'm writing
 trying to create a programming language whose compile target is python
 bytecode. You can see the first post of this series in
-[Targeting The Python Virtual Machine I: The Internal Structure of .pyc Files](http://blog.braulio.me/2018/06/28/internal-structure-pyc-files.html)_
+[Targeting The Python Virtual Machine I: The Internal Structure of .pyc Files](http://blog.braulio.me/2018/06/28/internal-structure-pyc-files.html)._
 
-In the first post of this series we saw what the structure of `.pyc`
+In the first post of this series, we saw what the structure of `.pyc`
 files was. We finished that post by saying that any cached bytecode
 file ends with the serialized module code object. The internal format
 used by cpython in `.pyc` files is called `marshal`, and so
 understanding
 the basics of the `marshal` format will be the goal of this post.
-Once we can marshal code objects we will be able to construct
+Once we can marshal code objects, we will be able to construct
 valid `.pyc` files.
 
 As I said in the previous post, the python version we are targeting
 here is python3.5. The marshal format is an internal part of the
-interpreter and thus is subject to changes from version to version.
+interpreter, and thus is subject to changes from version to version.
 That's why it does not have any official documentation.
 A summary of python2's `marshal` format can be found
 [here](http://demoseen.com/blog/2010-02-20_Python_Marshal_Format.html).
-For figuring all this stuff out I have had to read the source
+For figuring all this stuff out, I had to read the source
 of the interpreter, especially
 [`marshal.c`](https://github.com/python/cpython/blob/3.5/Python/marshal.c).
 
 In order to explain how data is serialized
 using `marshal`, I'll follow a top-down approach. We will
-start by seeing how code objects are marshalled and then proceed with
+start by seeing how code objects are marshalled, and then proceed with
 other native types as we need them. Finally, a full `.pyc` example
 will be analyzed.
 
@@ -70,7 +70,7 @@ data CodeObject = CodeObject
 ```
 
 Code objects are used to describe code both in functions and in
-modules and that's why we have fields like `argCount` in there. The
+modules, and that's why we have fields like `argCount` in there. The
 format for marshalling a code object is:
 
 1. Type: the character `c`. This will tell the `marshal` parser that a
@@ -83,7 +83,7 @@ format for marshalling a code object is:
 4. Number of local variables: little endian 4-bytes integer.
 5. Stack size: little endian 4 bytes integer.
 6. Flags: little endian 4 bytes integer.
-7. Code: a bytestring that contains the bytecode instructions that
+7. Code: a bytestring containing the bytecode instructions that
    will be executed by the cpython virtual machine.
    We will explain how this
    bytestring is marshalled
@@ -107,33 +107,33 @@ format for marshalling a code object is:
     error messages). The empty bytestring is ok if we do not have
     that kind of information.
 
-In order to check this is really how code objects are marshalled
+In order to check this is really how code objects are marshalled,
 you can check [`marshal.c#L1304`](https://github.com/python/cpython/blob/3.5/Python/marshal.c#L1304)
 (that's the code that parses marshalled code objects).
 
 ### Marshalling Tuples
-There are two ways to marshal tuples. The format is used to be:
+There are two ways to marshal tuples. The format used to be:
 
 1. The byte `(`.
-2. A little endian 4-byte integer indicating the number
+2. A little endian 4-byte integer, indicating the number
    in elements of the tuple.
 3. The items of the tuple, marshalled in order.
 
-However a new method was introduced to reduce the size of `.pyc`
+However, a new method was introduced to reduce the size of `.pyc`
 files. This method only applies to _small tuples_ a.k.a
-tuples whose number of items fits in a byte
+tuples whose number of items fits in a single byte
 (I wonder who uses tuples with more than
 256 elements). The format is:
 
 1. The byte `)`.
-2. A single byte indicating the number of elements in the tuple.
+2. A single byte, indicating the number of elements in the tuple.
 3. The items of the tuple, marshsalled in order.
 
-The code handling this in the interpreter is
+The code that handles thie behaviour is
 to be found in [`marshal.c#L467`](https://github.com/python/cpython/blob/3.5/Python/marshal.c#L467).
 
 ### Marshalling Integers
-Integers can have arbitrary size on python but we will just focus
+Integers can have arbitrary size on python, but we will just focus
 on how to marshal 32-bit integers. The format for these is simple:
 
 1. The byte `i`.
@@ -151,11 +151,11 @@ As an example, the tuple `(0, 1)` would marshal to:
 ```
 
 where `0x29` is the ascii code for `)` and `0x69` is the ascii
-code for `i`. Line breaks have been added for clarity.
+code for `i`. Line breaks have been added for the sake of clarity.
 
 ### Marshalling Strings
-There are many ways to marshal strings but we will focus on
-the simplest one that allows us to use the whole unicode character
+There are many ways to marshal strings, but we will focus on
+the simplest one that allows to use the whole unicode character
 map. The format for unicode strings is:
 
 1. The character `u`.
@@ -165,7 +165,7 @@ map. The format for unicode strings is:
 
 As there are multiple ways to encode strings, the
 interpreter code reponsible for that has to decide which one is the
-best way to encode a given particular string. However, you can check
+best way to encode a given one. However, you can check
 that the parser admits the particular
 format we explained here by reading
 [`marshal.c#L1138`](https://github.com/python/cpython/blob/3.5/Python/marshal.c#L1138).
@@ -193,7 +193,7 @@ You can try these examples yourself on the python repl
 although, when using `dumps`, python
 may use methods to marshal
 your data that are different to the ones explained here.
-It may use references, for example, which we won't cover
+It may use references, for example, which won't be covered
 in this post.
 
 ### Other basic values
@@ -202,7 +202,7 @@ is encoded as the character `T` and `False` is encoded as
 `F`. `None` is encoded as `N`.
 
 ### Marshalling bytecode instructions
-The last thing we need for making a valid pyc file is some code.
+The last thing we need for making a valid `.pyc` file is some code.
 The cpython virtual machine is a stack machine that is able
 to execute [many different instructions](https://docs.python.org/3/library/dis.html#opcode-NOP).
 In this post we we'll just focus on the minimum number of instructions
@@ -217,7 +217,7 @@ RETURN_VALUE
 ```
 Every instruction has an associated 1-byte opcode.
 You can check what opcode
-any given instruction is associated in the python repl:
+any given instruction is associated with using the python repl:
 
 ```
 >>> import dis
@@ -246,8 +246,7 @@ earlier are encoded as:
 You can find more documentation on bytecode instructions
 [here](https://docs.python.org/3/library/dis.html), although I
 think the best introduction to this topic is
-[this talk](https://www.youtube.com/watch?v=mxjv9KqzwjI) I have
-already mentioned in this series.
+[this talk](https://www.youtube.com/watch?v=mxjv9KqzwjI).
 
 The code string is then just a bytestring. Bytestrings are marshalled
 in a way that is similar to regular strings:
@@ -274,7 +273,8 @@ I have generated the following `.pyc` file:
 0000132
 ```
 
-I'll describe the structure of this file with what we have learned
+I'll describe the structure of this file taking into
+account what we have learned
 so far (I'll freely use line breaks and the python comment
 syntax to annotate the example):
 
@@ -283,9 +283,9 @@ syntax to annotate the example):
 a6 4f 3b 5b # unix modification timestamp
 00 00 00 00 # original source file size
 ```
-We saw this fields in the
+We saw these fields in the
 [first post of this series](http://blog.braulio.me/2018/06/28/internal-structure-pyc-files.html).
-You can have the second and the third field be whatever you want
+You can have the second and the third fields be whatever you want,
 as long as they match with the associated `.py` file. If they do not
 match cpython will not consider you `.pyc` file.
 
