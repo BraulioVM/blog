@@ -3,7 +3,6 @@ title: About
 layout: post
 ---
 
-I write about functional programming, computer science and
-systems programming.
+I write about programming.
 
 You can contact me by email.
