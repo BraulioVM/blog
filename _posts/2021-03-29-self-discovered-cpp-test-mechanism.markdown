@@ -3,8 +3,8 @@ layout: post
 title: "Self-discovered C++ Test Mechanism"
 ---
 
-`pytest` has this cool feature where any function whose name begins by `test` is considered to be a test (it's not really [that simple](https://docs.pytest.org/en/stable/goodpractices.html#conventions-for-python-test-discovery), but anyway).
-This is a very simple and convenient interface. All C++ testing frameworks (AFAIK) require one to explicitly _register_ the units (generally functions) that
+`pytest` has this cool feature where any function whose name begins by `test` is considered to be a test (it's a bit [more complicated](https://docs.pytest.org/en/stable/goodpractices.html#conventions-for-python-test-discovery), but anyway).
+This is a very simple and convenient interface. All C++ testing frameworks require one to explicitly _register_ the entities (generally functions) that
 comprise a test. The specific way in which these tests get registered is often hidden behind macros offered by the testing framework.
 
 As an example, compare the following python (`pytest`) and C++ (gtest) test cases:
@@ -38,7 +38,7 @@ TEST(VectorTests, DefaultConstructedVectorIsEmpty)
 
 Note, once again, the explicit registration of the test case using the `TEST` macro provided by gtest. Why is that registration needed? The simplest answer
 is that, unlike python, C++ does not allow one to reflect on the context of a _unit_ (translation unit? namespace? there isn't really a perfect analogy to a
-python package here). This may change in the future, once reflection makes its way into C++ (C++26 maybe). It will be very interesting how testing frameworks
+python module here). This may change in the future, once reflection makes its way into C++ (C++26 maybe). It will be very interesting how testing frameworks
 adapt to the future versions of the standard, but there's not much that we can do until then. Or __is there?????????__
 
 It's true that the language doesn't allow us to reflect on the functions defined in a _unit_, but we do not have to restrict our testing framework to
