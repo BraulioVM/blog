@@ -58,7 +58,7 @@ I called it [cooltests](https://github.com/brauliovm/cooltests). It is a terribl
 And most importantly, it does not have any advantage over gtest. Using macros for registering your test cases is not that bad. And actual
 testing frameworks come with many cool bells and whistles.
 
-PS: for a brainier take on this topic, but you may find [Future of Testing With C++20 - Kris Jusiak [ ACCU 2021 ]](https://www.youtube.com/watch?v=KlU0cb_tbuw&ab_channel=ACCUConference) interesting as well.
+PS: for a brainier take on this topic (and more), you may find [Future of Testing With C++20 - Kris Jusiak [ ACCU 2021 ]](https://www.youtube.com/watch?v=KlU0cb_tbuw&ab_channel=ACCUConference) interesting as well.
 
 
 
