@@ -47,6 +47,6 @@ It is a basic CRUD application. The first screen I tried to design was
 the one that would show you your _habits_ and let you create a new
 one. Pretty simple. This is the prototype I created in figma:
 
-![My figma prototype](/{{site.baseurl}}/assets/figma-habit.png)
+![My figma prototype]({{site.baseurl}}/assets/figma-habit.png)
 
 
