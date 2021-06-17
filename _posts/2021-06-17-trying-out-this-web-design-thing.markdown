@@ -49,4 +49,20 @@ one. Pretty simple. This is the prototype I created in figma:
 
 ![My figma prototype]({{site.baseurl}}/assets/figma-habit.png)
 
+This is not the sort of design that would gather me any like on
+Dribbble, and I bet any designer can easily find many mistakes. It's
+very prototypey, and may not make a lot of sense functionality-wise,
+yet it looks real! And I created it myself! It even uses `monospace`
+fonts to give it a more programmer-y look (see, creativity).
+
+I then implemented this design using HTML, CSS and Tailwind:
+
+![My web prototype]({{site.baseurl}}/assets/web-habit.png)
+
+And it doesn't look the same but that's fine.
+
+This is just a very small step for my design skills. Designers'
+talents are clearly (and will forever be) hundreds of miles ahead of
+mine. However, this I now know: if I need to, I can come up with _a_
+design.
 
