@@ -33,3 +33,20 @@ happy with the result is it time to start writing the code.
 
 The other resource that helped me was Dribbble. Search for things that
 are similar to what you're trying to build and take them as a reference.
+
+
+For practice, I came up with an idea for a habit-tracker kind of
+product.  In this web application, you can create a series of _habits_
+to be tracked, and the application will send you an e-mail every day
+with a number of tasks that you have to mark as completed (if/when
+completed). For example, the habit I was thinking of was "Study
+Chinese", and each task was basically "read this text" and a link to
+that text. 
+
+It is a basic CRUD application. The first screen I tried to design was
+the one that would show you your _habits_ and let you create a new
+one. Pretty simple. This is the prototype I created in figma:
+
+![My figma prototype](/assets/figma-habit.png)
+
+
